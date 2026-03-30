@@ -204,17 +204,36 @@ function donate() {
     const paypal = "vigna.veronica@gmail.com";
     const revolut = "https://revolut.me/verovi";
 
-    alert("Ora scegli il metodo di pagamento.\n\nBonifico, PayPal o Revolut.");
+    
+// Apri un popup per scegliere il metodo di pagamento
+    const metodo = prompt(
+        "Scegli il metodo di pagamento:\n\n" +
+        "1 - Bonifico bancario\n" +
+        "2 - PayPal\n" +
+        "3 - Revolut\n\n" +
+        "Inserisci 1, 2 o 3:"
+    );
 
-    window.location.href =
-        "mailto:" +
-        paypal +
-        "?subject=Donazione%20lista%20nozze&body=" +
-        encodeURIComponent(
-            "Item: " + selectedItem +
-            "\nImporto: " + amount + "€" +
-            (message ? "\nMessaggio: " + message : "")
+    if (metodo === "1") {
+        // Mostra i dettagli del bonifico
+        alert(
+            "Grazie per il contributo! 💚\n\n" +
+            "Ecco i dati per il bonifico:\n\n" +
+            "Intestatari: Alberto e Veronica\n" +
+            "IBAN: " + iban + "\n" +
+            "Causale: Lista nozze - " + selectedItem + (message ? " - " + message : "") + "\n" +
+            "Importo consigliato: " + amount + "€"
         );
+    }
+
+    if (metodo === "2") {
+        window.location.href = paypalLink + amount;
+    }
+
+    if (metodo === "3") {
+        window.location.href = revolutLink + amount;
+    }
+
 }
 </script>
 
