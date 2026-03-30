@@ -160,6 +160,8 @@
         <br><br>
         <button style="background:#6B47DC" onclick="payRevolut()">Revolut</button>
         <br><br>
+        <button style="background:#2F855A" onclick="payQR()">Bonifico con QR Code 📱</button> <!-- nuovo codice QR SEPA -->
+        <br><br>
 
         <button style="background:#A68A6B" onclick="closePaymentModal()">Chiudi</button>
     </div>
@@ -258,6 +260,31 @@ function payPayPal() {
 function payRevolut() {
     window.location.href = revolutLink + window.selectedAmount;
 }
+
+
+function payQR() {
+    const iban = IBAN;
+    const name = "Alberto e Veronica";
+    const amount = window.selectedAmount;
+    const descr = `Lista nozze – ${selectedItem}`;
+
+    const qrData = `BCD
+001
+1
+SCT
+${name}
+${iban}
+EUR${amount}
+${descr}`;
+
+    // Genera un QR code usando un servizio pubblico
+    window.open(
+        "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+        encodeURIComponent(qrData),
+        "_blank"
+    );
+}
+
 </script>
 
 </body>
