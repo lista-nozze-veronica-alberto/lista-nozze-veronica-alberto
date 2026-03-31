@@ -4,7 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Alberto e Veronica - Lista Nozze</title>
-<link rel='preconnect' href='https://cdnjs.cloudflare.com'>
+
+<!--jsPDF-->    <!-- Unnecessary?: <link rel='preconnect' href='https://cdnjs.cloudflare.com'> -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'></script>
 
 <style>
@@ -13,6 +14,7 @@
         font-family: "Georgia", serif;
         background-color: #F9F7F2;
         color: #4C6A4F;
+        overflow-x: hidden;
     }
 
     header {
@@ -58,11 +60,7 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.07);
     }
 
-    .item-card h3 {
-        margin-top: 0;
-    }
-
-    button {
+   button {
         background-color: #88A47C;
         border: none;
         color: white;
@@ -113,8 +111,18 @@
         font-size: 16px;
     }
 
-    #paymentModalBg .modal button {
-        width: 100%;
+ /* Animazione foglie + petali */
+    .falling {
+        position: fixed;
+        top: -10vh;
+        animation: fall linear infinite;
+        opacity: 0.9;
+        pointer-events: none;
+        z-index: 1;
+    }
+    @keyframes fall {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(110vh) rotate(360deg); }
     }
 </style>
 </head>
@@ -133,7 +141,7 @@
     <div class="item-grid" id="itemGrid"></div>
 </div>
 
-<!-- MODAL DONAZIONE -->
+<!-- MODAL IMPORTO DONAZIONE -->
 <div class="modal-bg" id="modalBg">
     <div class="modal">
         <h2 id="modalTitle"></h2>
@@ -158,21 +166,27 @@
 
         <button style="background:#4C6A4F" onclick="payBonifico()">Bonifico bancario</button>
         <br><br>
-        <button style='background:#2F855A' onclick='downloadBonificoPDF()'>Scarica PDF del Bonifico🌿</button>
-        <br><br>
-        <!-- <button style="background:#0070BA" onclick="payPayPal()">PayPal</button>
-        <br><br> OLD PAYPAL button senza logo-->
         <button style='background:#0070BA' onclick='payPayPal()'><img src='https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg' width='22' style='vertical-align:middle;margin-right:8px;'>PayPal</button>
         <br><br>
         <button style='background:#6B47DC' onclick='payRevolut()'><img src='https://upload.wikimedia.org/wikipedia/commons/7/73/Revolut_logo.svg' width='22' style='vertical-align:middle;margin-right:8px;'>Revolut</button>
         <br><br>
-        <!-- 
-        <button style="background:#6B47DC" onclick="payRevolut()">Revolut</button>
-        <br><br> OLD revolut button senza icona-->
         <button style="background:#FF5A5F" onclick="paySatispay()"><img src='https://upload.wikimedia.org/wikipedia/commons/a/a5/Logo_di_Satispay.svg' width='22' style='vertical-align:middle;margin-right:8px;'> Satispay</button>
         <br><br>
 
         <button style="background:#A68A6B" onclick="closePaymentModal()">Chiudi</button>
+    </div>
+</div>
+
+<!-- MODAL DETTAGLI BONIFICO -->
+<div class="modal-bg" id="bonificoModalBg">
+    <div class="modal">
+        <h2>Dati per il bonifico</h2>
+        <p id="bonificoText"></p>
+
+        <button style="background:#2F855A" onclick="downloadBonificoPDF()">Scarica PDF del Bonifico 🌿</button>
+        <br><br>
+
+        <button style="background:#A68A6B" onclick="closeBonificoModal()">Chiudi</button>
     </div>
 </div>
 
@@ -181,6 +195,7 @@
 </footer>
 
 <script>
+/*Lista item*/
 const items = [
     "Contributo volo per il viaggio",
     "Noleggio auto avventura",
@@ -234,24 +249,10 @@ function closePaymentModal() {
     document.getElementById("paymentModalBg").style.display = "none";
 }
 
- 
-//<!-- MODAL DETTAGLI BONIFICO -->
-<div class="modal-bg" id="bonificoModalBg">
-    <div class="modal">
-        <h2>Dati per il bonifico</h2>
-        <p id="bonificoText"></p>
-        <button style="background:#2F855A" onclick="downloadBonificoPDF()">Scarica PDF del Bonifico 🌿</button>
-        <br><br>
-        <button style="background:#A68A6B" onclick="closeBonificoModal()">Chiudi</button>
-    </div>
-</div>
-   
-
 // DATI PAGAMENTO
 const IBAN = "IT00X0000000000000000000000"; // <-- sostituire in futuro
 const paypalLink = "https://www.paypal.com/paypalme/Vv231/";
 const revolutLink = "https://revolut.me/verovi/";
-
 
 function payBonifico() {
     const text =
@@ -264,9 +265,34 @@ function payBonifico() {
     document.getElementById("paymentModalBg").style.display = "none";
     document.getElementById("bonificoModalBg").style.display = "flex";
 }
-   
+
 function closeBonificoModal() {
     document.getElementById("bonificoModalBg").style.display = "none";
+}
+
+/*PDF bonifico*/
+
+async function downloadBonificoPDF() {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+
+    pdf.setFontSize(20);
+    pdf.text("Dettagli Bonifico", 20, 20);
+    pdf.setDrawColor(136,164,124);
+    pdf.line(20,25,190,25);
+
+    pdf.setFontSize(12);
+    pdf.text(`Intestatari: Alberto e Veronica`, 20, 40);
+    pdf.text(`IBAN: ${IBAN}`, 20, 50);
+    pdf.text(`Causale: Lista nozze – ${selectedItem}`, 20, 60);
+    pdf.text(`Importo: ${window.selectedAmount}€`, 20, 70);
+
+    pdf.setFontSize(30);
+    pdf.setTextColor(136,164,124);
+    pdf.text("🍃", 160, 30);
+    pdf.text("🌸", 15, 85);
+
+    pdf.save("Bonifico_Lista_Nozze.pdf");
 }
 
 function payPayPal() {
@@ -279,19 +305,6 @@ function payRevolut() {
 
 function paySatispay() {
     window.location.href = "https://web.satispay.com/download/qrcode/S6Y-CON--A9ED49CC-1FA2-4E2F-8F21-4A0C59BC7881?locale=it";
-}
-async function downloadBonificoPDF(){
-    const{jsPDF}=window.jspdf;
-    const pdf=new jsPDF();
-    const intestatari = "Alberto e Veronica";
-    const causale = `Lista nozze – ${selectedItem}${window.selectedMessage ? " – " + window.selectedMessage : ""}`;
-    const importo = window.selectedAmount + "€";
-
-    pdf.setFontSize(20);pdf.text('Dettagli Bonifico',20,20); //titolo
-    pdf.setDrawColor(136,164,124);pdf.line(20,25,190,25); //linea floreale
-    pdf.setFontSize(12);pdf.text(`Intestatari: ${intestatari}`,20,40);pdf.text(`IBAN: ${IBAN}`,20,50);pdf.text(`Causale: ${causale}`,20,60);pdf.text(`Importo: ${importo}`,20,70); //testo
-    //pdf.setTextColor(136,164,124);pdf.setFontSize(30);pdf.text("🍃",160,30);pdf.text("🌸",15,85); //foglie decorative
-    pdf.save('Bonifico_Lista_Nozze_AeV.pdf');
 }
     
 </script>
