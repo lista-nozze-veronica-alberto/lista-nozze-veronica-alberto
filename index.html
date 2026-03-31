@@ -234,20 +234,39 @@ function closePaymentModal() {
     document.getElementById("paymentModalBg").style.display = "none";
 }
 
+ 
+//<!-- MODAL DETTAGLI BONIFICO -->
+<div class="modal-bg" id="bonificoModalBg">
+    <div class="modal">
+        <h2>Dati per il bonifico</h2>
+        <p id="bonificoText"></p>
+        <button style="background:#2F855A" onclick="downloadBonificoPDF()">Scarica PDF del Bonifico 🌿</button>
+        <br><br>
+        <button style="background:#A68A6B" onclick="closeBonificoModal()">Chiudi</button>
+    </div>
+</div>
+   
+
 // DATI PAGAMENTO
 const IBAN = "IT00X0000000000000000000000"; // <-- sostituire in futuro
 const paypalLink = "https://www.paypal.com/paypalme/Vv231/";
 const revolutLink = "https://revolut.me/verovi/";
 
+
 function payBonifico() {
-    alert(
-        "Dati per il bonifico:\n\n" +
-        "Intestatari: Alberto e Veronica\n" +
-        "IBAN: " + IBAN + "\n" +
+    const text =
+        "Intestatari: Alberto e Veronica<br>" +
+        "IBAN: " + IBAN + "<br>" +
         "Causale: Lista nozze – " + selectedItem +
         (window.selectedMessage ? " – " + window.selectedMessage : "") +
-        "\nImporto: " + window.selectedAmount + "€"
-    );
+        "<br>Importo: " + window.selectedAmount + "€";
+    document.getElementById("bonificoText").innerHTML = text;
+    document.getElementById("paymentModalBg").style.display = "none";
+    document.getElementById("bonificoModalBg").style.display = "flex";
+}
+   
+function closeBonificoModal() {
+    document.getElementById("bonificoModalBg").style.display = "none";
 }
 
 function payPayPal() {
