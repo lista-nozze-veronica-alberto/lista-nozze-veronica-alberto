@@ -229,15 +229,16 @@ function sendRSVP(event) {
         }
     });
 
-    fetch("https://script.google.com/macros/s/AKfycbwu-m_VKIKTEXIo2zjOOe0Ijf7NaBv_RGbT_4fUiUMvfN92DBoqwll8ztrCiXF-5OrQTg/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbwU6auE_bSU7OXUXG2yCsb6pf2oBXTS2J-p5QCp4WdInedOlHkNLYz1s3BI967eJVj8pQ/exec", {
         method: "POST",
         mode:"no-cors",
         body: new URLSearchParams({
-        nome: nome,
-        presenza: presenza,
-        persone: persone,
-        ospiti_extra: ospitiExtra || "-",
-        note: note || "-"
+            token:"VERONICA_ALBERTO_RSVP_2026",
+            nome: nome,
+            presenza: presenza,
+            persone: persone,
+            ospiti_extra: ospitiExtra || "-",
+            note: note || "-"
         })
     })
     .then(() => {
