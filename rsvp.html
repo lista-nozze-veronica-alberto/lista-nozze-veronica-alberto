@@ -231,6 +231,7 @@ function sendRSVP(event) {
 
     fetch("https://script.google.com/macros/s/AKfycbwgZs0huq2_tPuVWurP0WM_4JnfFrG9kbPF3y81Ry_ZkpFffCud1N4vk9URTUnHRjKj7g/exec", {
         method: "POST",
+        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             nome,
