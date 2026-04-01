@@ -469,7 +469,10 @@ setInterval(() => {
 
 <script>
 function toggleMenu() {
-    document.getElementById("mobileMenu").classList.toggle("open");
+    const menu = document.getElementById("mobileMenu");
+    if (menu) {
+        menu.classList.toggle("open");
+    }
 }
 </script>
 
