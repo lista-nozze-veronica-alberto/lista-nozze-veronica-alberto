@@ -124,6 +124,19 @@ h1 { text-align:center; margin-bottom:20px; }
 .section { background:white; padding:25px; border-radius:12px; border:2px solid #88A47C; margin-bottom:20px; }
 a { color:#4C6A4F; }
 
+   /* Animazione foglie + petali */
+    .falling {
+        position: fixed;
+        top: -10vh;
+        animation: fall linear infinite;
+        opacity: 0.9;
+        pointer-events: none;
+        z-index: 1;
+    }
+    @keyframes fall {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(110vh) rotate(360deg); }
+    }  
 </style>
 </head>
 
@@ -190,6 +203,26 @@ function toggleMenu() {
         menu.classList.toggle("open");
     }
 }
+</script>
+    
+<script>
+/* ANIMAZIONE FOGLIE + PETALI */
+function createFallingElement(emoji) {
+    const el = document.createElement("div");
+    el.classList.add("falling");
+    el.innerText = emoji;
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.animationDuration = (5 + Math.random() * 5) + "s";
+    el.style.fontSize = (20 + Math.random() * 20) + "px";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 10000);
+}
+
+setInterval(() => {
+    const list = ["🍃", "🌸"];
+    createFallingElement(list[Math.floor(Math.random() * list.length)]);
+}, 800);   
+        
 </script>
 
 </body>
