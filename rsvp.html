@@ -240,8 +240,7 @@ function sendRSVP(event) {
             note: note || "-"
         })
     })
-    .then(response => response.json())
-    .then(() => {
+    then(() => {
         alert("Grazie! La tua conferma è stata registrata 💚");
         event.target.reset();
         document.getElementById("altriOspiti").innerHTML = "";
