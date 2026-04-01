@@ -9,6 +9,7 @@
 
 /* MENU BOTANICO DESKTOP & MOBILE */
 nav.botanico {
+    box-sizing: border-box;
     position: sticky;
     top: 0;
     background: rgba(255,255,255,0.92);
@@ -72,9 +73,18 @@ nav.botanico a:hover {
 nav.botanico ul.mobile {
     display: none;
     flex-direction: column;
-    text-align: left;
-    padding-left: 30px;
     gap: 15px;
+
+    background: rgba(255,255,255,0.97);
+    padding: 20px 30px 25px;
+    margin: 0;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    border-bottom: 2px solid #88A47C33;
 }
 
 /* MENU MOBILE APERTO */
@@ -117,16 +127,16 @@ a { color:#4C6A4F; }
 
     <!-- MENU DESKTOP -->
     <ul class="desktop">
-        <li><a href="index.html">Lista Nozze</a></li>
-        <li><a href="dove-e-quando.html">Dove & Quando</a></li>
-        <li><a href="rsvp.html">RSVP</a></li>
+        <li><a href="index.html" onclick="toggleMenu()">Lista Nozze</a></li>
+        <li><a href="dove-e-quando.html" onclick="toggleMenu()">Dove & Quando</a></li>
+        <li><a href="rsvp.html" onclick="toggleMenu()">RSVP</a></li>
     </ul>
 
     <!-- MENU MOBILE -->
     <ul class="mobile" id="mobileMenu">
-        <li><a href="index.html">Lista Nozze</a></li>
-        <li><a href="dove-e-quando.html">Dove & Quando</a></li>
-        <li><a href="rsvp.html">RSVP</a></li>
+        <li><a href="index.html" onclick="toggleMenu()">Lista Nozze</a></li>
+        <li><a href="dove-e-quando.html" onclick="toggleMenu()">Dove & Quando</a></li>
+        <li><a href="rsvp.html" onclick="toggleMenu()">RSVP</a></li>
     </ul>
 
 </nav>
