@@ -98,10 +98,18 @@ nav.botanico ul.mobile.open {
 
     .hamburger {
         display: block;
+        top:50%;
+        transform: translateY(-50%);
+        line-height:1;
     }
 
     nav.botanico ul.desktop {
         display: none;
+    }
+    /* STILE MENU MOBILE */
+    nav.botanico {
+        padding: 18px 0 10px;
+        min-height: 56px;
     }
 
     nav.botanico ul.mobile a {
@@ -178,7 +186,10 @@ a { color:#4C6A4F; }
 
 <script>
 function toggleMenu() {
-    document.getElementById("mobileMenu").classList.toggle("open");
+    const menu = document.getElementById("mobileMenu");
+    if (menu) {
+        menu.classList.toggle("open");
+    }
 }
 </script>
 
