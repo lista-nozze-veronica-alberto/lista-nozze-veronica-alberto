@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Alberto e Veronica - Lista Nozze</title>
 
-<!--jsPDF-->    <!-- Unnecessary?: <link rel='preconnect' href='https://cdnjs.cloudflare.com'> -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'></script>
 
 <style>
@@ -339,15 +338,18 @@ const items = [
 
 const grid = document.getElementById("itemGrid");
 
-items.forEach((name) => {
-    grid.innerHTML += `
-        <div class="item-card">
-            <h3>${name}</h3>
-            <p>Puoi contribuire con qualsiasi importo.</p>
-            <button onclick="openModal('${name}')">Dona</button>
-        </div>
-    `;
-});
+
+if (grid) {
+    items.forEach((name) => {
+        grid.innerHTML += `
+            <div class="item-card">
+                <h3>${name}</h3>
+                <p>Puoi contribuire con qualsiasi importo.</p>
+                <button onclick="openModal('${name}')">Dona</button>
+            </div>
+        `;
+    });
+}
 
 let selectedItem = "";
 
